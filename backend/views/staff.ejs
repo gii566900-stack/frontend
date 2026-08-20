@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>บุคลากร — ไฟฟ้ากำลัง</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root{--bg:#0B1220;--panel:#12203A;--amber:#F2B705;--cyan:#29B6F6;--ink:#E8ECF1;--muted:#4A5568;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:'IBM Plex Sans Thai',sans-serif;}
+  header{padding:24px 32px;border-bottom:1px solid var(--muted);display:flex;justify-content:space-between;align-items:center;}
+  header .brand{font-weight:700}
+  header .brand span{color:var(--amber)}
+  nav a{color:var(--ink);text-decoration:none;margin-left:20px;font-size:14px;opacity:.85}
+  nav a:hover{color:var(--cyan)}
+  main{max-width:800px;margin:0 auto;padding:48px 24px}
+  h1{font-size:28px;margin-bottom:24px}
+  .card{background:var(--panel);border:1px solid #1c2c4a;border-radius:10px;padding:18px 20px;margin-bottom:14px}
+  .card h2{margin:0 0 4px;font-size:17px}
+  .card p{margin:2px 0;color:#B8C1D1;font-size:14px}
+  footer{text-align:center;padding:24px;color:var(--muted);font-size:13px;border-top:1px solid var(--muted)}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">แผนก<span>ไฟฟ้ากำลัง</span></div>
+  <nav>
+    <a href="/">ข่าวสาร</a>
+    <a href="/about">เกี่ยวกับสาขา</a>
+    <a href="/staff">บุคลากร</a>
+    <a href="/contact">ติดต่อ</a>
+  </nav>
+</header>
+<main>
+  <h1>บุคลากรประจำสาขา</h1>
+  <div class="card">
+    <h2>อาจารย์หัวหน้าสาขา</h2>
+    <p>หัวหน้าสาขาวิชาไฟฟ้ากำลัง</p>
+    <p>head@power-dept.ac.th</p>
+  </div>
+  <div class="card">
+    <h2>อาจารย์ประจำสาขา</h2>
+    <p>อาจารย์ผู้สอนวิชาระบบไฟฟ้ากำลัง</p>
+    <p>lecturer1@power-dept.ac.th</p>
+  </div>
+</main>
+<footer>สาขาวิชาไฟฟ้ากำลัง — ระบบเว็บไซต์แผนก</footer>
+</body>
+</html>

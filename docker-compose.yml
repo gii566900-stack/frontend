@@ -1,0 +1,96 @@
+version: "3.9"
+
+# ตาราง Container/Port ตามโจทย์:
+# Service      Container    Port ภายใน   Port ภายนอก
+# Frontend     frontend     80           8080
+# Backend      backend      80           8081
+# API          api          80           ไม่เปิด (เข้าถึงได้เฉพาะใน docker network)
+# MySQL        mysql        3306         ไม่เปิด (เข้าถึงได้เฉพาะใน docker network)
+# phpMyAdmin   phpmyadmin   80           8082 (เฉพาะกลุ่มผู้ดูแล)
+
+services:
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - api
+      - backend
+    networks:
+      - dept-net
+    restart: unless-stopped
+
+  backend:
+    build: ./backend
+    container_name: backend
+    ports:
+      - "8081:80"
+    environment:
+      - API_URL=http://api:80
+      - PORT=80
+    depends_on:
+      - api
+    networks:
+      - dept-net
+    restart: unless-stopped
+
+  api:
+    build: ./api
+    container_name: api
+    # ไม่เปิด port ออกภายนอกตามตาราง เข้าถึงได้เฉพาะ container อื่นใน network เดียวกัน
+    environment:
+      - PORT=80
+      - DB_HOST=mysql
+      - DB_USER=dept_user
+      - DB_PASSWORD=dept_pass
+      - DB_NAME=dept_power
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - dept-net
+    restart: unless-stopped
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    # ไม่เปิด port ออกภายนอกตามตาราง
+    environment:
+      - MYSQL_ROOT_PASSWORD=root_pass
+      - MYSQL_DATABASE=dept_power
+      - MYSQL_USER=dept_user
+      - MYSQL_PASSWORD=dept_pass
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot_pass"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - dept-net
+    restart: unless-stopped
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: phpmyadmin
+    ports:
+      - "8082:80"   # เฉพาะกลุ่มผู้ดูแล ใช้เพื่อ debug ฐานข้อมูลเท่านั้น
+    environment:
+      - PMA_HOST=mysql
+      - PMA_USER=dept_user
+      - PMA_PASSWORD=dept_pass
+    depends_on:
+      - mysql
+    networks:
+      - dept-net
+    restart: unless-stopped
+
+networks:
+  dept-net:
+    driver: bridge
+
+volumes:
+  mysql_data:

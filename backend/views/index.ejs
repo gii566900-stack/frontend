@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>สาขาวิชาไฟฟ้ากำลัง — ข่าวสาร</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root{
+    --bg:#0B1220; --panel:#12203A; --amber:#F2B705; --cyan:#29B6F6;
+    --ink:#E8ECF1; --muted:#4A5568;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:'IBM Plex Sans Thai',sans-serif;}
+  header{padding:24px 32px;border-bottom:1px solid var(--muted);display:flex;justify-content:space-between;align-items:center;}
+  header .brand{font-weight:700;letter-spacing:.02em}
+  header .brand span{color:var(--amber)}
+  nav a{color:var(--ink);text-decoration:none;margin-left:20px;font-size:14px;opacity:.85}
+  nav a:hover{color:var(--cyan)}
+  main{max-width:900px;margin:0 auto;padding:48px 24px}
+  h1{font-size:28px;margin-bottom:4px}
+  .lead{color:var(--muted);margin-bottom:32px}
+  .card{background:var(--panel);border:1px solid #1c2c4a;border-radius:10px;padding:20px 22px;margin-bottom:16px}
+  .tag{display:inline-block;font-family:monospace;font-size:12px;color:var(--bg);background:var(--amber);padding:2px 8px;border-radius:4px;margin-bottom:8px}
+  .card h2{margin:6px 0;font-size:18px}
+  .card p{color:#B8C1D1;margin:0;font-size:14px;line-height:1.6}
+  .empty{color:var(--muted)}
+  footer{text-align:center;padding:24px;color:var(--muted);font-size:13px;border-top:1px solid var(--muted)}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">แผนก<span>ไฟฟ้ากำลัง</span></div>
+  <nav>
+    <a href="/">ข่าวสาร</a>
+    <a href="/about">เกี่ยวกับสาขา</a>
+    <a href="/staff">บุคลากร</a>
+    <a href="/contact">ติดต่อ</a>
+  </nav>
+</header>
+<main>
+  <h1>ข่าวสารและประชาสัมพันธ์</h1>
+  <p class="lead">อัปเดตกิจกรรมของสาขาวิชาไฟฟ้ากำลัง</p>
+
+  <% if (news.length === 0) { %>
+    <p class="empty">ยังไม่มีข่าวสาร หรือไม่สามารถเชื่อมต่อ API ได้ในขณะนี้</p>
+  <% } else { %>
+    <% news.forEach(function(item) { %>
+      <div class="card">
+        <span class="tag"><%= item.voltage_tag %></span>
+        <h2><%= item.title %></h2>
+        <p><%= item.summary %></p>
+      </div>
+    <% }) %>
+  <% } %>
+</main>
+<footer>สาขาวิชาไฟฟ้ากำลัง — ระบบเว็บไซต์แผนก (frontend / backend / api / mysql / phpmyadmin)</footer>
+</body>
+</html>
